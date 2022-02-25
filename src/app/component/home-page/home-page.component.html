@@ -4,9 +4,10 @@
     <div class="emp-detail-text">
       Employee Details <div class="emp-count">{{employeeCount}}</div>
     </div>
-    <a class="add-button" routerLink="/add-user">
+    <a class="add-button" (click)="openAddPerson()">
       <img src="../assets/icons/add-24px.svg" alt="">Add Employee</a>
-  </div> <!-- header-content-->
+  </div> 
+  <!-- header-content-->
   <div class="table-main">
     <table id ="table-display" class="table">
         <tr>
@@ -16,6 +17,7 @@
             <th>Department</th>
             <th>Salary</th>
             <th>Start Date</th>
+            <th>note</th>
             <th>Actions</th>
         </tr>
         <!-- <tr>
@@ -45,13 +47,15 @@
                 <div class="dept-label" *ngFor="let department of employee.department">
                     {{department}}
                 </div>
+
             </td>
             <td>{{employee.salary | currency:'INR'}}</td>
             <td>{{employee.startDate | date: 'dd MMM yyyy'}}</td>
+            <td>{{employee.note}}</td>
             <td>
-                <img id={{employee.empId}} src="../assets/icons/delete-black-18dp.svg" alt="delete" (click)="remove(employee.empId)">
+                <img id={{employee.employeeId}} src="../assets/icons/delete-black-18dp.svg" alt="delete" (click)="remove(employee.employeeId)">
                 &nbsp;
-                <img id={{employee.empId}} src="../assets/icons/create-black-18dp.svg" alt="edit" (click)="update(employee)"> 
+                <img id={{employee.employeeId}} src="../assets/icons/create-black-18dp.svg" alt="edit" (click)="update(employee)"> 
             </td>
         </tr>
     </table>  

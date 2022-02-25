@@ -68,8 +68,6 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.employee);
   }
-
-
   /**
    * On change event for checkbox. In this we can select multiple checkobox 
    * for department and store is as an array.

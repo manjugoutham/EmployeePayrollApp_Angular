@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/model/employee';
 import { DataService } from 'src/app/service/data-service';
 // import { DataService } from 'src/app/service/data.service';
 import { HttpService } from '../../service/http.service';
+import { AddUserComponent } from '../add-user/add-user.component';
 
+/* A decorator. It is used to define a component. */
 @Component({
   selector: 'app-home-page',
   template: '<app-add-user [employeeData]="employee"></app-add-user>',
@@ -18,9 +21,14 @@ export class HomePageComponent implements OnInit {
 
   constructor(private httpService: HttpService,
               private router: Router,
-              private dataService: DataService
+              private dataService: DataService,
+              public dialog: MatDialog,
               ) { }
+              
 
+  /**
+   * It gets the employee data from the server and displays it in the employee list.
+   */
   ngOnInit(): void {
     this.httpService.getEmployeeData().subscribe(data => {
       this.employeeDetails = data.data;
@@ -29,6 +37,19 @@ export class HomePageComponent implements OnInit {
     });
   }
 
+  /**
+   * It opens a dialog box.
+   */
+  openAddPerson() {
+    this.dialog.open(AddUserComponent, {
+      width: '70%',
+      height:'100%'
+    });
+  }
+  /**
+   * Remove an employee from the employee list
+   * @param {number} empId - number
+   */
   remove(empId: number): void {
     console.log(empId)
     this.httpService.deleteEmployeeData(empId).subscribe(response => {
@@ -37,10 +58,14 @@ export class HomePageComponent implements OnInit {
     });
   }
 
+  /**
+   * Update an employee's data in the database
+   * @param {Employee} employee - Employee
+   */
   update(employee: Employee): void {
     this.dataService.changeEmployee(employee);
-    this.router.navigateByUrl('/add-user/' + employee.empId);
-    this.httpService.updateEmployeData(employee.empId, employee).subscribe(response => {
+    this.router.navigateByUrl('/add-user/' + employee.employeeId);
+    this.httpService.updateEmployeData(employee.employeeId, employee).subscribe(response => {
       console.log(response);
       this.ngOnInit();
     });
